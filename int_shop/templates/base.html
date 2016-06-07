@@ -6,10 +6,12 @@
 </head>
 <body>
 
-    <div><a href="{% url 'product_list' %}">Все продукты</a></div>
 
-{% block content %}
-{% endblock %}
+    {% block content %}
+        <div><a href="{% url 'product_list' %}">Все продукты</a></div>
+        <div><a href="{% url 'category_list' %}">Все категории</a></div>
+    {% endblock %}
+
 
 </body>
 </html>

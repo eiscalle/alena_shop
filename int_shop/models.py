@@ -19,3 +19,6 @@ class Product(models.Model):
 class Category(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
     description = models.TextField(verbose_name=_('Description'))
+
+    def get_absolute_url(self):
+        return reverse('category_detail', args=[self.pk])
