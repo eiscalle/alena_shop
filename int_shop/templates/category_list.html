@@ -2,11 +2,13 @@
 
 {% block content %}
 
-    <h1>Все категории</h1>
+    <h2>Все категории</h2>
 
     {% for obj in object_list %}
         <div><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> </div>
     {% endfor %}
+
+    <br>
 
     <a href="{% url 'create_category' %}">Добавить</a>
 

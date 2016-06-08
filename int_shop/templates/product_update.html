@@ -3,8 +3,8 @@
 {% block content %}
 
     <div>
-        <h2>Редактирование категории</h2>
-        <form action="{% url 'update_category' object.pk %}" method="post">
+        <h2>Редактирование продукта</h2>
+        <form action="{% url 'update_product' object.pk %}" method="post">
             {% csrf_token %}
 
             {% for field in form %}

@@ -3,12 +3,27 @@
 {% block content %}
 
     <div>
-        <h1>Категория {{ object.title }}</h1>
+        <h2>Категория {{ object.title }}</h2>
+
         <a href="{% url 'update_category' object.pk %}">Изменить</a>
         <form action="{% url 'delete_category' object.pk %}" method="post">
             {% csrf_token %}
+            <br>
             <input type="submit" value="Удалить">
         </form>
+
     </div>
+
+{% endblock %}
+
+{% block sublist %}
+
+    <h2>Все книги категории {{ object.title }}</h2>
+
+    {% for product in products %}
+
+        <p><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></p>
+
+    {% endfor %}
 
 {% endblock %}

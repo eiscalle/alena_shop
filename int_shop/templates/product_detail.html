@@ -2,6 +2,46 @@
 
 {% block content %}
 
-    <div>{{ object }}</div>
+    <div>
+        <h2>Книга {{ object.title }}</h2>
+
+        <style type="text/css">
+        .tg  {border-collapse:collapse;border-spacing:0;}
+        .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+        .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+        .tg .tg-eyzk{font-weight:bold;background-color:#e8e9f4;text-align:center;vertical-align:top}
+        .tg .tg-qpv9{font-weight:bold;background-color:#f2f2d6;text-align:center;vertical-align:top}
+        </style>
+        <table class="tg">
+          <tr>
+            <th class="tg-qpv9">Цена</th>
+            <th class="tg-eyzk">{{ object.price }}</th>
+          </tr>
+          <tr>
+            <td class="tg-qpv9">Описание</td>
+            <td class="tg-eyzk">{{ object.description }}</td>
+          </tr>
+          <tr>
+            <td class="tg-qpv9">Категория</td>
+            <td class="tg-eyzk">{{ object.category.values_list.0.1 }}</td>
+          </tr>
+        </table>
+
+        <br>
+
+        <a href="{% url 'update_product' object.pk %}">Изменить</a>
+        <form action="{% url 'delete_product' object.pk %}" method="post">
+            {% csrf_token %}
+            <br>
+            <input type="submit" value="Удалить">
+        </form>
+
+            <form action="{% url 'add_to_cart' object.pk %}" method="post">
+            {% csrf_token %}
+            <br>
+            <input type="submit" value="Добавить в корзину">
+        </form>
+
+    </div>
 
 {% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Корзина</h2>
+
+    <h3>Выбранные товары:</h3>
+
+    {% for obj in cart_items %}
+        <a href="{{ obj.get_absolute_url }}">{{ obj.item.title }}</a>
+        <p>Количество {{ obj.number }} </p>
+
+        <form action="{% url 'delete_item_from_cart' obj.pk %}" method="post">
+            {% csrf_token %}
+            <br>
+            <input type="submit" value="Удалить">
+        </form>
+    {% endfor %}
+
+    <p>Общая стоимость {{ total_price }}</p>
+{% endblock %}
