@@ -2,6 +2,7 @@
 
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import AbstractUser
 from django.core.urlresolvers import reverse
 from django.core.validators import MinValueValidator
 from django.utils.translation import ugettext_lazy as _
@@ -24,6 +25,7 @@ class Category(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
     description = models.TextField(verbose_name=_('Description'))
     is_hidden = models.BooleanField(_('Is hidden'), default=False)
+    parent = models.ForeignKey('self', blank=True, null=True, related_name='children')
 
     def get_absolute_url(self):
         return reverse('category_detail', args=[self.pk])
@@ -45,6 +47,7 @@ class CartItem(models.Model):
 
 class Cart(models.Model):
     items = models.ManyToManyField(CartItem, related_name='carts', null=True, default=None, verbose_name='Товар')
+    user = models.OneToOneField('User', related_name='cart', verbose_name='Пользователь', default=None, null=True)
 
     @property
     def count_price(self):
@@ -55,4 +58,13 @@ class Cart(models.Model):
 
     def get_absolute_url(self):
         return reverse('cart')
+
+
+class User(AbstractUser):
+
+    def __unicode__(self):
+        return self.first_name
+
+
+
 

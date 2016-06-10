@@ -1,13 +1,19 @@
+# -*- coding: utf-8 -*-
+
+from __future__ import unicode_literals
+
+from django.contrib.auth import authenticate, login, logout
 from django.core.urlresolvers import reverse
 from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.views.generic import ListView, TemplateView
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
-from int_shop.forms import CreateCategoryForm, CategoryUpdateForm, CreateProductForm, ProductUpdateForm, AddToCartForm
-from int_shop.models import Product, Category, Cart, CartItem
+from int_shop.forms import CreateCategoryForm, CategoryUpdateForm, CreateProductForm, ProductUpdateForm, AddToCartForm, \
+    RegistrationForm, LoginForm
+from int_shop.models import Product, Category, Cart, CartItem, User
 
 
 class RootView(TemplateView):
@@ -180,6 +186,76 @@ class CartItemDeleteView(DeleteView):
         return reverse('cart')
 
 cart_item_delete_view = CartItemDeleteView.as_view()
+
+
+class RegistrationView(FormView):
+    form_class = RegistrationForm
+    template_name = 'registration.html'
+    success = False
+    request = None
+
+    def post(self, request, *args, **kwargs):
+        self.request = request
+        return super(RegistrationView, self).post(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(RegistrationView, self).get_context_data(**kwargs)
+
+        context['success'] = self.success
+        return context
+
+    def form_valid(self, form):
+        user = User.objects.create_user(username=form.cleaned_data['email'],
+                                        email=form.cleaned_data['email'],
+                                        password=form.cleaned_data['password'],
+                                        first_name=form.cleaned_data['first_name'],
+                                        last_name=form.cleaned_data['last_name']
+                                        )
+
+        auth_user = authenticate(username=user.username, password=user.password)
+        login(self.request, auth_user)
+
+        redirect_to = self.request.META['HTTP_REFERER']
+
+        return HttpResponseRedirect(redirect_to)
+
+
+registration_view = RegistrationView.as_view()
+
+
+def login_user(request):
+    username = request.POST.get('username', '')
+    password = request.POST.get('password', '')
+    remember_me = request.POST.get('remember_me', None)
+
+    form = LoginForm(request.POST)
+
+    request.session['LoginErrors'] = dict(form.errors)
+
+    auth_user = authenticate(username=username, password=password)
+    if auth_user:
+        login(request, auth_user)
+
+        if not remember_me:
+            request.session.set_expiry(0)
+    elif username != '' and password != '':
+        request.session['LoginErrors']['username'] = ['Ошибка входа',]
+
+    if request.GET.get('next', ''):
+        redirect_to = request.GET.get('next', '')
+    else:
+        redirect_to = request.META.get('HTTP_REFERER', '')
+
+    redirect_to = redirect_to if redirect_to else '/'
+
+    return HttpResponseRedirect(redirect_to)
+
+
+def logout_user(request):
+    logout(request)
+    redirect_to = '/'
+    return HttpResponseRedirect(redirect_to)
+
 
 
 
