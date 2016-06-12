@@ -71,6 +71,8 @@ class RegistrationForm(forms.Form):
         try:
             user = User.objects.get(email=email)
         except User.DoesNotExist:
+            pass
+        finally:
             return email
 
     def clean_confirm_password(self):

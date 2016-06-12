@@ -12,14 +12,13 @@
         {% for field in form %}
             <p>{{ field.label_tag }}
                 {% if field.errors %}
-                    {% field.errors.0 %}
-                {% else %}
-                    {{ field }}
+                    {{ field.errors }}
                 {% endif %}
+            {{ field }}
             </p>
         {% endfor %}
         <p>
-        <input type="submit", value="Зарегистрироваться">
+        <input type="submit" value="Зарегистрироваться">
         </p>
     </form>
     {% endif %}

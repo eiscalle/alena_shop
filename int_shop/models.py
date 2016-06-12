@@ -16,6 +16,7 @@ class Product(models.Model):
     description = models.TextField(verbose_name=_('Description'))
     category = models.ManyToManyField('Category', related_name='products', verbose_name=_('Category'))
     is_hidden = models.BooleanField(_('Is hidden'), default=False)
+    image = models.ImageField(verbose_name='Image', null=True, default=None)
 
     def get_absolute_url(self):
         return reverse('product_detail', args=[self.pk])

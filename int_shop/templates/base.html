@@ -4,19 +4,26 @@
     <meta charset="UTF-8">
     <title>Bookshop</title>
 
-      <style type="text/css">
-       A:link {
-        text-decoration: none; /* Убирает подчеркивание для ссылок */
-       }
-       A:visited { text-decoration: none; }
-       A:active { text-decoration: none; }
-       A:hover {
-          font-size: 18px; /* Размер шрифта */
-          font-weight: bold; /* Жирное начертание */
-          text-decoration: underline; /* Делает ссылку подчеркнутой при наведении на нее курсора */
-          color: blue; /* Цвет ссылки */
-       }
-      </style>
+    <style type="text/css">
+        A:link {
+            text-decoration: none; /* Убирает подчеркивание для ссылок */
+        }
+
+        A:visited {
+            text-decoration: none;
+        }
+
+        A:active {
+            text-decoration: none;
+        }
+
+        A:hover {
+            font-size: 18px; /* Размер шрифта */
+            font-weight: bold; /* Жирное начертание */
+            text-decoration: underline; /* Делает ссылку подчеркнутой при наведении на нее курсора */
+            color: blue; /* Цвет ссылки */
+        }
+    </style>
 
 </head>
 <body>
@@ -24,19 +31,41 @@
 <h1>BookShop</h1>
 
 
-    {% block content %}
-        <div><a href="{% url 'product_list' %}">Все книги</a></div>
+{% block content %}
 
+    {% if request.user.is_authenticated %}
+        <div><a href="{% url 'logout_user' %}">Выйти</a></div>
         <br>
-
-        <div><a href="{% url 'category_list' %}">Все категории</a></div>
-
+    {% else %}
         <br>
-        <div><a href="{% url 'cart' %}">Корзина</a></div>
-    {% endblock %}
+    <form action="{% url 'login_user' %}" method="post">
+    {% csrf_token %}
 
-    {% block sublist %}
-    {% endblock %}
+        {% for field in login_form %}
+            <p>{{ field.label_tag }}
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
+            {{ field }}
+            </p>
+        {% endfor %}
+        <p>
+        <input type="submit" value="Авторизоваться">
+        </p>
+    </form>
+        <br>
+        <div><a href="{% url 'registration' %}">Регистрация</a></div>
+        <br>
+    {% endif %}
+    <div><a href="{% url 'product_list' %}">Все продукты</a></div>
+    <br>
+    <div><a href="{% url 'category_list' %}">Все категории</a></div>
+    <br>
+    <div><a href="{% url 'cart' %}">Корзина</a></div>
+{% endblock %}
+
+{% block sublist %}
+{% endblock %}
 
 
 </body>

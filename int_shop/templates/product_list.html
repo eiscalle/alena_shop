@@ -12,6 +12,9 @@
 
     <br>
 
+    {% if request.user.is_superuser %}
     <a href="{% url 'create_product' %}">Добавить</a>
+    {% endif %}
+
 
 {% endblock %}
