@@ -39,6 +39,12 @@ class ProductDetailView(DetailView):
     model = Product
     template_name = 'product_detail.html'
 
+    def get_object(self, queryset=None):
+        obj = super(ProductDetailView, self).get_object(queryset)
+        obj.count += 1
+        obj.save()
+        return obj
+
 
 product_detail_view = ProductDetailView.as_view()
 
@@ -259,6 +265,20 @@ def logout_user(request):
     logout(request)
     redirect_to = '/'
     return HttpResponseRedirect(redirect_to)
+
+
+class PopularListView(ListView):
+    model = Product
+    template_name = 'popular_list.html'
+
+    def get_queryset(self):
+        qs = super(PopularListView, self).get_queryset()
+        return qs.filter(is_hidden=False)
+
+
+popular_list_view = PopularListView.as_view()
+
+
 
 
 

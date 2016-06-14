@@ -3,10 +3,14 @@
 {% block content %}
 
     <h2>Все новости</h2>
-    {% for obj in news %}
-        <div><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> </div>
+    {% for obj in news_list %}
+       <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h3>
+        {% if obj.description|length > 300 %}
+            <p>{{ obj.description|slice:":300"}}...</p>
+            {% else %}
+            {{ obj.description }}
+        {% endif %}
     {% endfor %}
-
     <br>
 
     {% if request.user.is_superuser %}

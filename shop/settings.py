@@ -59,7 +59,7 @@ ROOT_URLCONF = 'shop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['/home/eiscalle/projects/shop/int_shop/templates/'],
+        'DIRS': ['/home/alena/workspace/projects/alena_shop/int_shop/templates/', '/home/alena/workspace/projects/alena_shop/news/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -68,6 +68,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'int_shop.context_processors.login_form',
+                'int_shop.context_processors.popular',
 
             ],
         },
@@ -87,7 +88,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '1',
         'HOST': '127.0.0.1',
-        'PORT': '5432'
+        'PORT': '5433'
     }
 }
 

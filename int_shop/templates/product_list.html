@@ -5,7 +5,7 @@
     <h2>Все книги</h2>
 
     {% for obj in object_list %}
-        <div><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> </div>
+        <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }} </a></h3>
     {% endfor %}
 
     <br>

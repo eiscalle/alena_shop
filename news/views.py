@@ -27,11 +27,6 @@ class NewsDetailView(DetailView):
     model = News
     template_name = 'news_detail.html'
 
-    def get_context_data(self, **kwargs):
-        context = super(NewsDetailView, self).get_context_data(**kwargs)
-        context['news'] = self.object.all()
-        return context
-
 
 news_detail_view = NewsDetailView.as_view()
 
@@ -42,7 +37,7 @@ class NewsCreateView(CreateView):
     form_class = CreateNewsForm
 
     def get_success_url(self):
-        return reverse('category_list')
+        return reverse('news_list')
 
 
 news_create_view = NewsCreateView.as_view()

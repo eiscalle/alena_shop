@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block popular %}
 
-    <h2>Все категории</h2>
+    <h2>Популярные товары</h2>
 
     {% for obj in object_list %}
         <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h3>
@@ -10,7 +10,7 @@
 
     {% if request.user.is_superuser %}
     <br>
-    <a href="{% url 'create_category' %}">Добавить</a>
+    <a href="{% url 'add_popular' %}">Добавить популярное</a>
     {% endif %}
 
 {% endblock %}

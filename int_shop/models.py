@@ -22,6 +22,7 @@ class Product(models.Model):
     cover = models.CharField(max_length=50, verbose_name=_('Cover'), blank=True)
     publisher = models.CharField(max_length=50, verbose_name=_('Publisher'), blank=True)
     year = models.DateField(verbose_name=_('Publish date'), blank=True, default=None, null=True)
+    count = models.PositiveSmallIntegerField(default=0)
 
     def get_absolute_url(self):
         return reverse('product_detail', args=[self.pk])
@@ -31,7 +32,7 @@ class Category(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
     description = models.TextField(verbose_name=_('Description'))
     is_hidden = models.BooleanField(_('Is hidden'), default=False)
-    parent = models.ForeignKey('self', blank=True, null=True, related_name='children')
+    parent = models.ForeignKey('self', blank=True, null=True, related_name='children', verbose_name=_('Parent category'))
 
     def get_absolute_url(self):
         return reverse('category_detail', args=[self.pk])

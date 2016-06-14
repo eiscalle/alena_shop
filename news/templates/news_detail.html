@@ -4,6 +4,7 @@
 
     <div>
         <h2> {{ object.title }}</h2>
+        <p> {{ object.description }} </p>
         {% if request.user.is_superuser %}
         <a href="{% url 'update_news' object.pk %}">Изменить</a>
         <form action="{% url 'delete_news' object.pk %}" method="post">
