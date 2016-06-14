@@ -29,11 +29,15 @@
 <body>
 
 <h1>BookShop</h1>
-
+    {% if request.path != "/" %}
+    <a href="{% url 'root' %}">На главную</a>
+    <br>
+    {% endif %}
 
 {% block content %}
 
     {% if request.user.is_authenticated %}
+    <p>Вы авторизованы как {{ request.user.username }}</p>
         <div><a href="{% url 'logout_user' %}">Выйти</a></div>
         <br>
     {% else %}
@@ -57,6 +61,8 @@
         <div><a href="{% url 'registration' %}">Регистрация</a></div>
         <br>
     {% endif %}
+    <div><a href="{% url 'news_list' %}">Новости</a></div>
+    <br>
     <div><a href="{% url 'product_list' %}">Все продукты</a></div>
     <br>
     <div><a href="{% url 'category_list' %}">Все категории</a></div>

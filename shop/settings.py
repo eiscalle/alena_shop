@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'int_shop',
+    'disqus',
+    'django.contrib.sites',
+    'news',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -135,4 +138,10 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL= 'JLR MS <noreply@jlr-ms.ru>'
 EMAIL_HOST_USER = 'no-reply@adwz.ru'
 EMAIL_HOST_PASSWORD = 'yy4imexBbVk6L'
+
+
+DISQUS_API_KEY = '9sGXarmoYD1UFxANvJE2PEOyt90LJj3wkFoMwfxHxPlJUj5p1bmrKRSbeAEG1b2L'
+DISQUS_WEBSITE_SHORTNAME = 'alenabookshop'
+
+SITE_ID = 1
 

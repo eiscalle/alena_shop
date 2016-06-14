@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h2>Все новости</h2>
+    {% for obj in news %}
+        <div><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> </div>
+    {% endfor %}
+
+    <br>
+
+    {% if request.user.is_superuser %}
+    <a href="{% url 'create_news' %}">Добавить</a>
+    {% endif %}
+
+
+{% endblock %}
