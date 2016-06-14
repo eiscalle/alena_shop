@@ -4,7 +4,7 @@
 
     <div>
         <h2>Редактирование продукта</h2>
-        <form action="{% url 'update_product' object.pk %}" method="post">
+        <form action="{% url 'update_product' object.pk %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
 
             {% for field in form %}

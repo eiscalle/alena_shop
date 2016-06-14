@@ -4,13 +4,14 @@
 
     <div>
         <h2>Категория {{ object.title }}</h2>
-
+        {% if request.user.is_superuser %}
         <a href="{% url 'update_category' object.pk %}">Изменить</a>
         <form action="{% url 'delete_category' object.pk %}" method="post">
             {% csrf_token %}
             <br>
             <input type="submit" value="Удалить">
         </form>
+        {% endif %}
 
     </div>
 

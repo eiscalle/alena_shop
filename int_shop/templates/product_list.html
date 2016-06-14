@@ -5,13 +5,14 @@
     <h2>Все книги</h2>
 
     {% for obj in object_list %}
-{#        {% if not obj.is_hidden %}#}
         <div><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> </div>
-{#        {% endif %}#}
     {% endfor %}
 
     <br>
 
+    {% if request.user.is_superuser %}
     <a href="{% url 'create_product' %}">Добавить</a>
+    {% endif %}
+
 
 {% endblock %}

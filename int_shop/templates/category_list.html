@@ -8,8 +8,9 @@
         <div><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a> </div>
     {% endfor %}
 
+    {% if request.user.is_superuser %}
     <br>
-
     <a href="{% url 'create_category' %}">Добавить</a>
+    {% endif %}
 
 {% endblock %}

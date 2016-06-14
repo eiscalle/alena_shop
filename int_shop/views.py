@@ -142,7 +142,7 @@ class CartView(DetailView):
     template_name = 'cart.html'
 
     def get_object(self, queryset=None):
-        return self.model.objects.get()
+        return self.model.objects.get_or_create(user=self.request.user)[0]
 
     def get_context_data(self, **kwargs):
         context = super(CartView, self).get_context_data(**kwargs)
@@ -162,7 +162,7 @@ class AddToCartView(CreateView):
     def form_valid(self, form):
         form.instance.item = Product.objects.get(pk=self.kwargs['pk'])
         form.instance.number = 1
-        cart, created = Cart.objects.get_or_create()
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
         if cart.items.filter(item__pk=self.kwargs['pk']).exists():
             cart.items.filter(item__pk=self.kwargs['pk']).update(number=F('number') + 1)
             return HttpResponseRedirect(self.get_success_url())
@@ -212,10 +212,14 @@ class RegistrationView(FormView):
                                         last_name=form.cleaned_data['last_name']
                                         )
 
-        auth_user = authenticate(username=user.username, password=user.password)
+        auth_user = authenticate(username=user.username, password=form.cleaned_data['password'])
         login(self.request, auth_user)
 
         redirect_to = self.request.META['HTTP_REFERER']
+
+        subject = 'Hello %s' % user.username
+        message = 'Welcome'
+        user.email_user(subject, message)
 
         return HttpResponseRedirect(redirect_to)
 

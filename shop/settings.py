@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'int_shop',
+    'disqus',
+    'django.contrib.sites',
+    'news',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -64,6 +67,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'int_shop.context_processors.login_form',
+
             ],
         },
     },
@@ -82,7 +87,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': '1',
         'HOST': '127.0.0.1',
-        'PORT': '5433'
+        'PORT': '5432'
     }
 }
 
@@ -124,3 +129,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'mail.perx.ru'
+EMAIL_PORT = 25
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL= 'JLR MS <noreply@jlr-ms.ru>'
+EMAIL_HOST_USER = 'no-reply@adwz.ru'
+EMAIL_HOST_PASSWORD = 'yy4imexBbVk6L'
+
+
+DISQUS_API_KEY = '9sGXarmoYD1UFxANvJE2PEOyt90LJj3wkFoMwfxHxPlJUj5p1bmrKRSbeAEG1b2L'
+DISQUS_WEBSITE_SHORTNAME = 'alenabookshop'
+
+SITE_ID = 1
+
