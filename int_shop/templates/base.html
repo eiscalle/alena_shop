@@ -71,10 +71,6 @@
     <div class="container">
 
     <h1>BookShop</h1>
-{#    {% if request.path != "/" %}#}
-{#    <a href="{% url 'root' %}">На главную</a>#}
-{#    <br>#}
-{#    {% endif %}#}
 
 {% block content %}
 
@@ -107,6 +103,8 @@
 
 {% block sublist %}
 {% endblock %}
+
+        {{ cat }}
 
         <h2>Популярные товары</h2>
 

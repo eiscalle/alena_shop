@@ -3,7 +3,7 @@
 {% block content %}
 
     <div>
-        <h2>Категория {{ object.title }}</h2>
+        <h1>Категория {{ object.title }}</h1>
         {% if request.user.is_superuser %}
         <a href="{% url 'update_category' object.pk %}">Изменить</a>
         <form action="{% url 'delete_category' object.pk %}" method="post">
@@ -23,7 +23,7 @@
 
     {% for product in products %}
 
-        <p><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></p>
+        <h3><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h3>
 
     {% endfor %}
 

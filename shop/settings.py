@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'int_shop',
     'disqus',
     'django.contrib.sites',
@@ -69,7 +70,6 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'int_shop.context_processors.login_form',
                 'int_shop.context_processors.popular',
-
             ],
         },
     },
