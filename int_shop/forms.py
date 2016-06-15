@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 from django import forms
 from django.template.context_processors import request
 
-from int_shop.models import Category, Product, CartItem, User
+from int_shop.models import Category, Product, CartItem, User, Order
 
 
 class CreateCategoryForm(forms.ModelForm):
@@ -34,14 +34,14 @@ class CreateProductForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        exclude = ['image']
+        exclude = ['image', 'count']
 
 
 class ProductUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Product
-        exclude = ['image']
+        exclude = ['image', 'count']
 
 
 class ProductDeleteForm(forms.ModelForm):
@@ -89,3 +89,19 @@ class RegistrationForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(label=_('Username'), max_length=128, required=True)
     password = forms.CharField(label=_('Password'), max_length=128, required=True)
+
+
+class OrderDetailForm(forms.ModelForm):
+
+    class Meta:
+        model = Order
+        exclude = []
+
+
+class OrderCreateForm(forms.ModelForm):
+
+    class Meta:
+        model = Order
+        exclude = ['user', 'items', 'created_at', 'status']
+
+

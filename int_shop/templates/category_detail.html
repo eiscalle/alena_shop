@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load shop_tags %}
+
 {% block content %}
 
     <div>
@@ -26,5 +28,14 @@
         <h3><a href="{{ product.get_absolute_url }}">{{ product.title }}</a></h3>
 
     {% endfor %}
+
+{% endblock %}
+
+
+{% block popular %}
+
+    <h2>Популярные товары в категориии {{ object.title }}</h2>
+
+    {% popular object %}
 
 {% endblock %}

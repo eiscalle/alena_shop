@@ -1,3 +1,5 @@
+{% load shop_tags %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,13 +106,13 @@
 {% block sublist %}
 {% endblock %}
 
-        {{ cat }}
+    {% block popular %}
 
         <h2>Популярные товары</h2>
 
-        {% for obj in popular %}
-            <h3><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></h3>
-        {% endfor %}
+    {% popular %}
+
+    {% endblock %}
 
 
         </div><!-- /.container -->

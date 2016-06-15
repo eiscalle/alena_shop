@@ -12,8 +12,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
 from int_shop.forms import CreateCategoryForm, CategoryUpdateForm, CreateProductForm, ProductUpdateForm, AddToCartForm, \
-    RegistrationForm, LoginForm
-from int_shop.models import Product, Category, Cart, CartItem, User
+    RegistrationForm, LoginForm, OrderDetailForm, OrderCreateForm
+from int_shop.models import Product, Category, Cart, CartItem, User, Order
 
 
 class RootView(TemplateView):
@@ -277,6 +277,39 @@ class PopularListView(ListView):
 
 
 popular_list_view = PopularListView.as_view()
+
+
+class OrderDetailView(CreateView):
+    model = Order
+    template_name = 'order_detail.html'
+
+    def get_object(self, queryset=None):
+        return self.model.objects.get(user=self.request.user)[0]
+
+    def get_context_data(self, **kwargs):
+        context = super(OrderDetailView, self).get_context_data(**kwargs)
+        context['order_items'] = self.object.items.all()
+        context['total_price'] = self.object.count_price
+        return context
+
+
+order_detail_view = OrderDetailView.as_view()
+
+
+class OrderCreateView(CreateView):
+    model = Order
+    template_name = 'create_order.html'
+    form_class = OrderCreateForm
+
+order_create_view = OrderCreateView.as_view()
+
+
+class SendOrderView(TemplateView):
+    template_name = 'send_order.html'
+
+
+send_order_view = SendOrderView.as_view()
+
 
 
 

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <h3>Ваш заказ:</h3>
+
+    {% for obj in order_items %}
+        <a href="{{ obj.get_absolute_url }}">{{ obj.item.title }}</a>
+        <p>Количество {{ obj.number }} </p>
+    {% endfor %}
+    <p>Общая стоимость {{ total_price }}</p>
+
+    <a href="{% url 'cart' %}">Вернуться в корзину</a>
+    <a href="{% url 'create_order' %}">Оформить заказ</a>
+
+{% endblock %}

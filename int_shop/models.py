@@ -12,7 +12,7 @@ from django.db import models
 class Product(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
     author = models.CharField(max_length=100, verbose_name=_('Author'), blank=True)
-    price = models.DecimalField(decimal_places=2, max_digits=6, default=0, validators=[MinValueValidator(0)],
+    price = models.DecimalField(decimal_places=2, max_digits=6, default=0, validators=[MinValueValidator(0)], null=False,
                                 verbose_name=_('Price'))
     description = models.TextField(verbose_name=_('Description'), blank=True)
     category = models.ManyToManyField('Category', related_name='products', verbose_name=_('Category'), blank=True)
@@ -70,3 +70,54 @@ class Cart(models.Model):
 class User(AbstractUser):
     def __unicode__(self):
         return self.first_name
+
+
+class Order(models.Model):
+    CASH = 'CASH'
+    CARD = 'CARD'
+    PAYMENT_TYPE_CHOICES = (
+        (CASH, _('Cash')),
+        (CARD, _('Card')),
+    )
+
+    CREATED = _('Created')
+    SENT = _('Sent')
+    DELIVERED = _('Delivered')
+    STATUS_CHOICES = (
+        (CREATED, _('Created')),
+        (SENT, _('Sent')),
+        (DELIVERED, _('Delivered'))
+    )
+
+    items = models.ManyToManyField('OrderItem', related_name='orders', verbose_name=_('Items'))
+    phone = models.CharField(max_length=255, default='', verbose_name=_('Phone'))
+    address = models.CharField(max_length=150, verbose_name=_('Address'))
+    payment_type = models.CharField(max_length=10, choices=PAYMENT_TYPE_CHOICES, default=CASH,
+                                    verbose_name=_('Payment type'))
+    user = models.ForeignKey(User, verbose_name=_('User'))
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED, verbose_name=_('Status'))
+
+    @property
+    def count_price(self):
+        count = 0
+        for item in self.items.all():
+            count += item.item.price * item.number
+        return count
+
+    def get_absolute_url(self):
+        return reverse('order_detail')
+
+
+class OrderItem(models.Model):
+    item = models.ForeignKey(Product, verbose_name=_('Product'))
+    number = models.IntegerField(default=0, verbose_name=_('Quantity'))
+    price = models.DecimalField(decimal_places=2, max_digits=6, default=0, validators=[MinValueValidator(0)], null=False,
+                                verbose_name=_('Price'))
+
+    def get_absolute_url(self):
+        return reverse('product_detail', args=[self.item.pk])
+
+    def __unicode__(self):
+        return self.item
+

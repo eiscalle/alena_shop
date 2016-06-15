@@ -1,17 +1,24 @@
-# from django import template
-# from django.template.loader import render_to_string
-#
-# register = template.Library()
-#
-# @register.simple_tag(takes_context=False)
-# def campaign_compensation(campaign, allocations=None, dealer=None):
-#    allocation = None
-#    min_max = None
-#    if allocations:
-#        try:
-#            allocation = filter(lambda x: x.campaign == campaign and dealer in x.dealers.all(), allocations)[0]
-#        except IndexError:
-#            pass
-#    else:
-#        min_max = campaign.get_min_max_compensation()
-#     return render_to_string('tags/campaign_compensation.html', {'allocation': allocation, 'min_max': min_max})
+# -*- coding: utf-8 -*-
+import random
+
+from django import template
+from django.template.loader import render_to_string
+
+from int_shop.models import Product
+
+register = template.Library()
+
+
+@register.inclusion_tag('popular.html', takes_context=False)
+def popular(category=None):
+    random3 = set()
+    qs = Product.objects.order_by('-count')
+    if category is not None:
+        qs = qs.filter(category=category)
+    if qs.count() < 3:
+        random3 = qs
+    else:
+        while len(random3) < 3:
+            random3.add(random.choice(qs[:9]))
+
+    return {'popular': random3}
