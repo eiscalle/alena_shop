@@ -91,13 +91,6 @@ class LoginForm(forms.Form):
     password = forms.CharField(label=_('Password'), max_length=128, required=True)
 
 
-class OrderDetailForm(forms.ModelForm):
-
-    class Meta:
-        model = Order
-        exclude = []
-
-
 class OrderCreateForm(forms.ModelForm):
 
     class Meta:

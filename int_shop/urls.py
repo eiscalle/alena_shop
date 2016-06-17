@@ -3,7 +3,7 @@ from django.conf.urls import url
 from int_shop.views import product_list_view, product_detail_view, category_list_view, category_detail_view, \
     category_create_view, category_update_view, category_delete_view, product_create_view, product_update_view, \
     product_delete_view, root_view, cart_view, add_to_cart_view, cart_item_delete_view, registration_view, login_user, logout_user, \
-    order_detail_view, send_order_view, order_create_view
+    send_order_view, order_create_view
 
 urlpatterns = [
     url(r'^product/list/$', product_list_view, name='product_list'),
@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^registration/$', registration_view, name='registration'),
     url(r'^logout/$', logout_user, name='logout_user'),
     url(r'^login/$', login_user, name='login_user'),
-    url(r'^order/detail/$', order_detail_view, name='order_detail'),
     url(r'^order/create/$', order_create_view, name='create_order'),
     url(r'^order/send/$', send_order_view, name='send_order'),
 

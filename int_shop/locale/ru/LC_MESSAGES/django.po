@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-14 13:27+0300\n"
+"POT-Creation-Date: 2016-06-17 17:02+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,6 +19,14 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: admin.py:16 models.py:18 models.py:49
+msgid "Category"
+msgstr "Категория"
+
+#: admin.py:48 models.py:157
+msgid "Items"
+msgstr "Товары"
 
 #: forms.py:62
 msgid "First name"
@@ -48,7 +56,7 @@ msgstr "Пароли не совпадают"
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: models.py:13 models.py:31
+#: models.py:13 models.py:43 models.py:60
 msgid "Title"
 msgstr "Название"
 
@@ -56,25 +64,17 @@ msgstr "Название"
 msgid "Author"
 msgstr "Автор"
 
-#: models.py:16
+#: models.py:16 models.py:185
 msgid "Price"
 msgstr "Цена"
 
-#: models.py:17 models.py:32
+#: models.py:17 models.py:44
 msgid "Description"
 msgstr "Описание"
 
-#: models.py:18
-msgid "Category"
-msgstr "Категория"
-
-#: models.py:19 models.py:33
+#: models.py:19 models.py:45
 msgid "Is hidden"
 msgstr "Скрыто"
-
-#: models.py:20
-msgid "Image"
-msgstr "Изображение"
 
 #: models.py:21
 msgid "Number of pages"
@@ -92,18 +92,162 @@ msgstr "Издательство"
 msgid "Publish date"
 msgstr "Год"
 
-#: models.py:34
-msgid "Parent category"
-msgstr "Является подкатегорией"
+#: models.py:25
+msgid "Sold"
+msgstr "Продано"
 
-#: models.py:44 models.py:55
+#: models.py:26
+msgid "Rating"
+msgstr "Рейтинг"
+
+#: models.py:27
+msgid "Voted"
+msgstr "Проголосовало"
+
+#: models.py:28
+msgid "In stock"
+msgstr "В наличии"
+
+#: models.py:32 models.py:104 models.py:115 models.py:126 models.py:182
 msgid "Product"
 msgstr "Товар"
 
-#: models.py:45
+#: models.py:33
+msgid "Products"
+msgstr "Товары"
+
+#: models.py:46
+msgid "Parent category"
+msgstr "Является подкатегорией"
+
+#: models.py:50
+msgid "Categories"
+msgstr "Категории"
+
+#: models.py:61
+msgid "URL"
+msgstr "URL"
+
+#: models.py:62
+msgid "Is active"
+msgstr "Активен"
+
+#: models.py:63
+msgid "Ordering"
+msgstr "Порядок"
+
+#: models.py:66
+msgid "Main Menu"
+msgstr "Главное меню"
+
+#: models.py:67
+msgid "Main Menues"
+msgstr "Главное меню"
+
+#: models.py:71
+msgid "Slug"
+msgstr "Название"
+
+#: models.py:72
+msgid "Subject"
+msgstr "Тема"
+
+#: models.py:73
+msgid "Template"
+msgstr "Шаблон"
+
+#: models.py:74
+msgid "Email Template"
+msgstr "Шаблон письма"
+
+#: models.py:75
+msgid "Sender"
+msgstr "Отправитель"
+
+#: models.py:78
+msgid "Notification"
+msgstr "Уведомление"
+
+#: models.py:79
+msgid "Notifications"
+msgstr "Уведомления"
+
+#: models.py:88 models.py:105 models.py:110 models.py:127 models.py:162
+msgid "User"
+msgstr "Пользователь"
+
+#: models.py:89
+msgid "Image"
+msgstr "Изображение"
+
+#: models.py:90
+msgid "Date of Birth"
+msgstr "Дата рождения"
+
+#: models.py:91
+msgid "City"
+msgstr "Город"
+
+#: models.py:92
+msgid "Country"
+msgstr "Страна"
+
+#: models.py:93 models.py:159
+msgid "Address"
+msgstr "Адрес"
+
+#: models.py:96
+msgid "User Profile"
+msgstr "Профиль пользователя"
+
+#: models.py:97
+msgid "User Profiles"
+msgstr "Профили пользователей"
+
+#: models.py:109
+msgid "Text"
+msgstr "Текст"
+
+#: models.py:111 models.py:149 models.py:153
+msgid "Sent"
+msgstr "Отправлено"
+
+#: models.py:116 models.py:183
 msgid "Quantity"
 msgstr "Количество"
 
-#: models.py:56
-msgid "User"
-msgstr "Пользователь"
+#: models.py:144
+msgid "Cash"
+msgstr "Наличные"
+
+#: models.py:145
+msgid "Card"
+msgstr "Кредитная карта"
+
+#: models.py:148 models.py:152
+msgid "Created"
+msgstr "Создано"
+
+#: models.py:150 models.py:154
+msgid "Delivered"
+msgstr "Отправлено"
+
+#: models.py:158
+msgid "Phone"
+msgstr "Телефон"
+
+#: models.py:161
+msgid "Payment type"
+msgstr "Способ оплаты"
+
+#: models.py:164
+msgid "Status"
+msgstr "Статус"
+
+#: models.py:167
+msgid "Order"
+msgstr "Заказ"
+
+#: models.py:168
+msgid "Orders"
+msgstr "Заказы"

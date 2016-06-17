@@ -59,10 +59,12 @@
               {% else %}
             <li><a href="{% url 'category_list' %}">Категории</a></li>
           {% endif %}
+          {% if request.user.is_authenticated %}
           {% if request.path == '/cart/' %}
               <li class="active"><a href="{% url 'cart' %}">Корзина</a></li>
               {% else %}
               <li><a href="{% url 'cart' %}">Корзина</a></li>
+          {% endif %}
           {% endif %}
 
           </ul>

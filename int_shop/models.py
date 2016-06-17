@@ -17,12 +17,23 @@ class Product(models.Model):
     description = models.TextField(verbose_name=_('Description'), blank=True)
     category = models.ManyToManyField('Category', related_name='products', verbose_name=_('Category'), blank=True)
     is_hidden = models.BooleanField(_('Is hidden'), default=False)
-    image = models.ImageField(verbose_name=(_('Image')), null=True, default=None)
+    # image = models.ImageField(verbose_name=(_('Image')), null=True, default=None)
     pages = models.IntegerField(verbose_name=_('Number of pages'), blank=True, default=None, null=True)
     cover = models.CharField(max_length=50, verbose_name=_('Cover'), blank=True)
     publisher = models.CharField(max_length=50, verbose_name=_('Publisher'), blank=True)
     year = models.DateField(verbose_name=_('Publish date'), blank=True, default=None, null=True)
+    sales_count = models.IntegerField(default=0, verbose_name=_('Sold'))
+    rating = models.IntegerField(default=0, verbose_name=_('Rating'))
+    votes_count = models.IntegerField(default=0, verbose_name=_('Voted'))
+    in_stock = models.IntegerField(default=0, verbose_name=_('In stock'))
     count = models.PositiveSmallIntegerField(default=0)
+
+    class Meta:
+        verbose_name = _('Product')
+        verbose_name_plural = _('Products')
+
+    def __unicode__(self):
+        return self.title
 
     def get_absolute_url(self):
         return reverse('product_detail', args=[self.pk])
@@ -34,11 +45,70 @@ class Category(models.Model):
     is_hidden = models.BooleanField(_('Is hidden'), default=False)
     parent = models.ForeignKey('self', blank=True, null=True, related_name='children', verbose_name=_('Parent category'))
 
+    class Meta:
+        verbose_name = _('Category')
+        verbose_name_plural = _('Categories')
+
     def get_absolute_url(self):
         return reverse('category_detail', args=[self.pk])
 
     def __unicode__(self):
         return self.title
+
+
+class MainMenu(models.Model):
+    title = models.CharField(max_length=40, verbose_name=_('Title'))
+    url = models.URLField(verbose_name=_('URL'))
+    is_active = models.BooleanField(verbose_name=_('Is active'))
+    order = models.IntegerField(default=0, verbose_name=_('Ordering'))
+
+    class Meta:
+        verbose_name = _('Main Menu')
+        verbose_name_plural = _('Main Menues')
+
+
+class Notification(models.Model):
+    system_name = models.CharField(max_length=255, verbose_name=_('Slug'))
+    subject = models.CharField(max_length=255, verbose_name=_('Subject'))
+    template = models.CharField(max_length=255, verbose_name=_('Template'))
+    email_template = models.TextField(verbose_name=_('Email Template'))
+    sender = models.EmailField(verbose_name=_('Sender'))
+
+    class Meta:
+        verbose_name = _('Notification')
+        verbose_name_plural = _('Notifications')
+
+
+class User(AbstractUser):
+    def __unicode__(self):
+        return self.first_name
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, verbose_name=_('User'))
+    avatar = models.ImageField(null=True, default=None, verbose_name=_('Image'))
+    birth_date = models.DateField(default=None, verbose_name=_('Date of Birth'))
+    city = models.CharField(max_length=255, default=None, verbose_name=_('City'))
+    country = models.CharField(max_length=255, default=None, verbose_name=_('Country'))
+    address = models.TextField(default=None, verbose_name=_('Address'))
+
+    class Meta:
+        verbose_name = _('User Profile')
+        verbose_name_plural = _('User Profiles')
+
+    def get_absolute_url(self):
+        return reverse('product_detail', args=[self.pk])
+
+
+class WishList(models.Model):
+    product = models.ForeignKey(Product, verbose_name=_('Product'), default=None)
+    user = models.ForeignKey(User, verbose_name=_('User'))
+
+
+class Comment(models.Model):
+    text = models.TextField(verbose_name=_('Text'))
+    sender = models.ForeignKey(User, verbose_name=_('User'))
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('Sent'))
 
 
 class CartItem(models.Model):
@@ -67,11 +137,6 @@ class Cart(models.Model):
         return reverse('cart')
 
 
-class User(AbstractUser):
-    def __unicode__(self):
-        return self.first_name
-
-
 class Order(models.Model):
     CASH = 'CASH'
     CARD = 'CARD'
@@ -98,6 +163,10 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED, verbose_name=_('Status'))
 
+    class Meta:
+        verbose_name = _('Order')
+        verbose_name_plural = _('Orders')
+
     @property
     def count_price(self):
         count = 0
@@ -106,7 +175,7 @@ class Order(models.Model):
         return count
 
     def get_absolute_url(self):
-        return reverse('order_detail')
+        return reverse('create_order')
 
 
 class OrderItem(models.Model):
@@ -115,9 +184,32 @@ class OrderItem(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=6, default=0, validators=[MinValueValidator(0)], null=False,
                                 verbose_name=_('Price'))
 
-    def get_absolute_url(self):
-        return reverse('product_detail', args=[self.item.pk])
+    # def get_absolute_url(self):
+    #     return reverse('product_detail', args=[self.item.pk])
 
     def __unicode__(self):
         return self.item
+
+
+class ProductProperty(models.Model):
+    product = models.ForeignKey(Product, blank=False, related_name='properties')
+
+    class Meta:
+        verbose_name = _('Property')
+        verbose_name_plural = _('Property')
+
+    def __unicode__(self):
+        return self.product.title
+
+
+class ProductPropertyValue(models.Model):
+    property = models.ForeignKey(ProductProperty, blank=False, related_name='values')
+    title = models.CharField(blank=False, default='', max_length=128)
+
+    class Meta:
+        verbose_name = _('Property Value')
+        verbose_name_plural = _('Property Values')
+
+    def __unicode__(self):
+        return u'%s: %s:' % (self.property.product.title, self.name)
 

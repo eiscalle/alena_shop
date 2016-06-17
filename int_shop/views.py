@@ -12,8 +12,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 
 from int_shop.forms import CreateCategoryForm, CategoryUpdateForm, CreateProductForm, ProductUpdateForm, AddToCartForm, \
-    RegistrationForm, LoginForm, OrderDetailForm, OrderCreateForm
-from int_shop.models import Product, Category, Cart, CartItem, User, Order
+    RegistrationForm, LoginForm, OrderCreateForm
+from int_shop.models import Product, Category, Cart, CartItem, User, Order, OrderItem
 
 
 class RootView(TemplateView):
@@ -279,27 +279,30 @@ class PopularListView(ListView):
 popular_list_view = PopularListView.as_view()
 
 
-class OrderDetailView(CreateView):
-    model = Order
-    template_name = 'order_detail.html'
-
-    def get_object(self, queryset=None):
-        return self.model.objects.get(user=self.request.user)[0]
-
-    def get_context_data(self, **kwargs):
-        context = super(OrderDetailView, self).get_context_data(**kwargs)
-        context['order_items'] = self.object.items.all()
-        context['total_price'] = self.object.count_price
-        return context
-
-
-order_detail_view = OrderDetailView.as_view()
-
-
 class OrderCreateView(CreateView):
     model = Order
     template_name = 'create_order.html'
     form_class = OrderCreateForm
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        resp = super(OrderCreateView, self).form_valid(form)
+        cart = Cart.objects.get(user=self.request.user)
+        cart_items = cart.items.all()
+        for cart_item in cart_items:
+            qwe = OrderItem()
+            qwe.item = cart_item.item
+            qwe.price = cart_item.item.price
+            qwe.number = cart_item.number
+            qwe.save()
+            form.instance.items.add(qwe)
+
+        Cart.objects.get(user=self.request.user).delete()
+
+        return resp
+
+    def get_success_url(self):
+        return reverse('send_order')
 
 order_create_view = OrderCreateView.as_view()
 
