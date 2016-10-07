@@ -3,7 +3,8 @@
 from django.contrib.admin import ModelAdmin, register
 from django.utils.translation import ugettext_lazy as _
 
-from models import Product, Category, MainMenu, Notification, UserProfile, WishList, Order
+from models import Product, Category, MainMenu, Notification, UserProfile, WishList, Order, ProductProperty, \
+    ProductPropertyValue
 
 
 @register(Product)
@@ -48,4 +49,18 @@ class OrderAdmin(ModelAdmin):
     get_items.short_description = _('Items')
 
     list_display = ('user', 'get_items', 'created_at', 'phone', 'address', 'payment_type', 'address', 'status')
+
+
+@register(ProductProperty)
+class ProductPropertyAdmin(ModelAdmin):
+    list_display = ('product', )
+
+
+@register(ProductPropertyValue)
+class ProductPropertyValueAdmin(ModelAdmin):
+    list_display = ('property', 'title')
+
+
+
+
 

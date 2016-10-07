@@ -184,32 +184,30 @@ class OrderItem(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=6, default=0, validators=[MinValueValidator(0)], null=False,
                                 verbose_name=_('Price'))
 
-    # def get_absolute_url(self):
-    #     return reverse('product_detail', args=[self.item.pk])
-
     def __unicode__(self):
         return self.item
 
 
 class ProductProperty(models.Model):
-    product = models.ForeignKey(Product, blank=False, related_name='properties')
+    title = models.CharField(blank=False, default='', max_length=128, verbose_name='Property Title')
+    product = models.ForeignKey(Product, blank=False, related_name='properties', verbose_name='Product')
 
     class Meta:
         verbose_name = _('Property')
         verbose_name_plural = _('Property')
 
     def __unicode__(self):
-        return self.product.title
+        return self.product.title + ' : ' + self.title
 
 
 class ProductPropertyValue(models.Model):
-    property = models.ForeignKey(ProductProperty, blank=False, related_name='values')
-    title = models.CharField(blank=False, default='', max_length=128)
+    property = models.ForeignKey(ProductProperty, blank=False, related_name='values', verbose_name='Property Title')
+    title = models.CharField(blank=False, default='', max_length=128, verbose_name='Property Value')
 
     class Meta:
         verbose_name = _('Property Value')
         verbose_name_plural = _('Property Values')
 
     def __unicode__(self):
-        return u'%s: %s:' % (self.property.product.title, self.name)
+        return u'%s: %s:' % (self.property.product.title, self.title)
 
